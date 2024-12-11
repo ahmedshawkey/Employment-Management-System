@@ -1,0 +1,3 @@
+
+http://127.0.0.1:8000/api/register/               send POST call to this API endpoint with fields[username, email, password, password_confirmation, first_name, last_name, phone_number, address, company, department, date_hired, salary] in the request body to create a new Employee. 
+
