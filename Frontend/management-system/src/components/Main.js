@@ -9,7 +9,7 @@ function Main() {
     <Router>
       <Navbar bg="dark" variant="dark" expand="lg">
         <Container>
-          <Navbar.Brand href="/">MyApp</Navbar.Brand>
+          <Navbar.Brand href="/">Employee Management System</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/login">Login</Nav.Link>
             <Nav.Link as={Link} to="/register">Register</Nav.Link>
