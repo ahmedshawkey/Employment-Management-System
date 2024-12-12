@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     axios.post('/api/login/', { username, password })
       .then(response => {
         console.log('Login successful', response.data);
+        navigate('/dashboard');  // Redirect to Dashboard
       })
       .catch(error => {
         console.error('There was an error logging in!', error);

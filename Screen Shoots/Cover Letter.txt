@@ -1,0 +1,8 @@
+To run the Application Django and React needs to be installed, 
+at the frontend directory run the command "npm run build".
+at the head to the "Employment-Management-System\Backend" directory and run the command "python manage.py runserver".
+
+
+
+
+session based Authentication is used so if using Insomnia to test the APIs CSRF-Token needs to be sent with each API call that is dealing with Company or Department APIs. After calling the login API in Insomnia CSRF-Token could should be acquired from the cookies tap from Insomnia and sent with other API calls. 

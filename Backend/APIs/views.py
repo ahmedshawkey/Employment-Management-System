@@ -69,6 +69,7 @@ class EmployeeRegistrationView(APIView):
 class CompanyListCreateView(APIView):
 
     permission_classes = [IsAuthenticated]
+
     # retreive all records of the Company table from database
     def get(self, request):
         companies = Company.objects.all()
@@ -86,6 +87,7 @@ class CompanyListCreateView(APIView):
 class CompanySingleView(APIView):
 
     permission_classes = [IsAuthenticated]
+
     # handle GET calls for a single Company object to retrieve it
     def get(self, request, pk):
         company = get_object_or_404(Company, pk=pk)
