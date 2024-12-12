@@ -5,4 +5,10 @@ http://127.0.0.1:8000/api/register/              Send POST call to this API endp
 
 http://127.0.0.1:8000/api/company/              Send POST call to this API endpoint with fields[name, address, eamil] to create a new company.
 http://127.0.0.1:8000/api/company/              Send GET call to this API endpoint get all companies. 
-http://127.0.0.1:8000/api/company/pk/           Send GET, PUT, DELETE calls to this API endpoint to retrieve, update or delete a single company with a certain primary key. 
+http://127.0.0.1:8000/api/company/pk/           Send GET, PUT, DELETE calls to this API endpoint to retrieve, update or delete(respectively) a single company with a certain primary key.
+
+
+
+http://127.0.0.1:8000/api/department/          Send POST call to this API endpoint with fields[name, description, company] to create a new department.
+http://127.0.0.1:8000/api/department/          Send Get call to this API endpoint to get all Departments. 
+http://127.0.0.1:8000/api/department/pk/       Send GET, PUT, DELETE calls to this API endpoint to retrieve, update or delete(respectively) a single department with a certain primary key.  

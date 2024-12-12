@@ -4,7 +4,7 @@ from rest_framework import status
 from django.contrib.auth.models import User
 from .serializers import UserRegistrationSerializer, EmployeeSerializer
 from .serializers import CompanySerializer, DepartmentSerializer
-from .models import Employee, Company
+from .models import Employee, Company, Department
 from django.shortcuts import get_object_or_404
 
 class EmployeeRegistrationView(APIView):
@@ -97,4 +97,36 @@ class CompanySingleView(APIView):
     def delete(self, request, pk):
         company = get_object_or_404(Company, pk=pk)
         company.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class DepartmentListCreateView(APIView):
+    def get(self, request):
+        departments = Department.objects.all()
+        serializer = DepartmentSerializer(departments, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = DepartmentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class DepartmentSingleView(APIView):
+    def get(self, request, pk):
+        department = get_object_or_404(Department, pk=pk)
+        serializer = DepartmentSerializer(department)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        department = get_object_or_404(Department, pk=pk)
+        serializer = DepartmentSerializer(department, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        department = get_object_or_404(Department, pk=pk)
+        department.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
