@@ -1,6 +1,8 @@
 
-http://127.0.0.1:8000/api/register/              Send POST call to this API endpoint with fields[username, email, password, password_confirmation, first_name, last_name, phone_number, address, company, department, date_hired, salary] in the request body to create a new Employee. 
+http://127.0.0.1:8000/api/register/              Send POST call to this API endpoint with fields[username, email, password, password_confirmation, first_name, last_name, phone_number, address, company, department, date_hired, salary] in the request body to create a new Employee.
 
+http://127.0.0.1:8000/api/login/                 Send POST call to this API endpoint with authentication credentials(username, password) to login. 
+http://127.0.0.1:8000/api/logout/                Send POST call to this API endpoint to logout. 
 
 
 http://127.0.0.1:8000/api/company/              Send POST call to this API endpoint with fields[name, address, eamil] to create a new company.

@@ -6,9 +6,10 @@ from .serializers import UserRegistrationSerializer, EmployeeSerializer
 from .serializers import CompanySerializer, DepartmentSerializer
 from .models import Employee, Company, Department
 from django.shortcuts import get_object_or_404
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpRequest
 from rest_framework.decorators import api_view
+from django.contrib.sessions.models import Session
 
 class EmployeeRegistrationView(APIView):
     def post(self, request):
@@ -172,3 +173,10 @@ def employee_login_view(request: HttpRequest):
                 {"message": "Username or password is incorrect"},
                 status=status.HTTP_401_UNAUTHORIZED,
             )
+
+@api_view(["POST"])
+def logout_view(request: HttpRequest):
+    logout(request)
+    Session.objects.filter(session_key=request.session.session_key).delete()
+
+    return Response({"message": "successfully loged out !!!"})
