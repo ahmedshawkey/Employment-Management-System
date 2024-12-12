@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpRequest
 from rest_framework.decorators import api_view
 from django.contrib.sessions.models import Session
+from rest_framework.permissions import IsAuthenticated
 
 class EmployeeRegistrationView(APIView):
     def post(self, request):
@@ -66,6 +67,8 @@ class EmployeeRegistrationView(APIView):
         return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CompanyListCreateView(APIView):
+
+    permission_classes = [IsAuthenticated]
     # retreive all records of the Company table from database
     def get(self, request):
         companies = Company.objects.all()
@@ -82,6 +85,7 @@ class CompanyListCreateView(APIView):
 
 class CompanySingleView(APIView):
 
+    permission_classes = [IsAuthenticated]
     # handle GET calls for a single Company object to retrieve it
     def get(self, request, pk):
         company = get_object_or_404(Company, pk=pk)
@@ -104,6 +108,9 @@ class CompanySingleView(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class DepartmentListCreateView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         departments = Department.objects.all()
         serializer = DepartmentSerializer(departments, many=True)
@@ -117,6 +124,9 @@ class DepartmentListCreateView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DepartmentSingleView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pk):
         department = get_object_or_404(Department, pk=pk)
         serializer = DepartmentSerializer(department)
