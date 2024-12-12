@@ -6,6 +6,9 @@ from .serializers import UserRegistrationSerializer, EmployeeSerializer
 from .serializers import CompanySerializer, DepartmentSerializer
 from .models import Employee, Company, Department
 from django.shortcuts import get_object_or_404
+from django.contrib.auth import authenticate, login
+from django.http import HttpRequest
+from rest_framework.decorators import api_view
 
 class EmployeeRegistrationView(APIView):
     def post(self, request):
@@ -130,3 +133,42 @@ class DepartmentSingleView(APIView):
         department = get_object_or_404(Department, pk=pk)
         department.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["POST"])
+def employee_login_view(request: HttpRequest):
+    if request.method == "POST":
+        username = request.data.get("username")
+        password = request.data.get("password")
+        user = authenticate(request=request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+
+            # Get additional employee data
+            try:
+                employee = Employee.objects.get(user=user)
+                employee_data = {
+                    "id": user.id,
+                    "username": user.username,
+                    "first_name": employee.first_name,
+                    "last_name": employee.last_name,
+                    "email": user.email,
+                    "phone_number": employee.phone_number,
+                    "address": employee.address,
+                    "company": employee.company.name,
+                    "department": employee.department.name,
+                    "date_hired": employee.date_hired,
+                    "salary": str(employee.salary),  # Convert Decimal to string for JSON serialization
+                }
+                return Response(employee_data)
+            except Employee.DoesNotExist:
+                return Response(
+                    {"message": "Employee profile does not exist"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+        else:
+            return Response(
+                {"message": "Username or password is incorrect"},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
