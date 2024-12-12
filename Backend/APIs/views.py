@@ -3,7 +3,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
 from .serializers import UserRegistrationSerializer, EmployeeSerializer
-from .models import Employee
+from .serializers import CompanySerializer, DepartmentSerializer
+from .models import Employee, Company
+from django.shortcuts import get_object_or_404
 
 class EmployeeRegistrationView(APIView):
     def post(self, request):
@@ -58,3 +60,41 @@ class EmployeeRegistrationView(APIView):
                 return Response(employee_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CompanyListCreateView(APIView):
+    # retreive all records of the Company table from database
+    def get(self, request):
+        companies = Company.objects.all()
+        serializer = CompanySerializer(companies, many=True)
+        return Response(serializer.data)
+
+    #creates a new Company and stores it in the database
+    def post(self, request):
+        serializer = CompanySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class CompanySingleView(APIView):
+
+    # handle GET calls for a single Company object to retrieve it
+    def get(self, request, pk):
+        company = get_object_or_404(Company, pk=pk)
+        serializer = CompanySerializer(company)
+        return Response(serializer.data)
+
+    # handle PUT call to udpate any company instance
+    def put(self, request, pk):
+        company = get_object_or_404(Company, pk=pk)
+        serializer = CompanySerializer(company, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # handles deleting a company from the database with a certain primary key
+    def delete(self, request, pk):
+        company = get_object_or_404(Company, pk=pk)
+        company.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

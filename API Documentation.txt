@@ -1,3 +1,8 @@
 
-http://127.0.0.1:8000/api/register/               send POST call to this API endpoint with fields[username, email, password, password_confirmation, first_name, last_name, phone_number, address, company, department, date_hired, salary] in the request body to create a new Employee. 
+http://127.0.0.1:8000/api/register/              Send POST call to this API endpoint with fields[username, email, password, password_confirmation, first_name, last_name, phone_number, address, company, department, date_hired, salary] in the request body to create a new Employee. 
 
+
+
+http://127.0.0.1:8000/api/company/              Send POST call to this API endpoint with fields[name, address, eamil] to create a new company.
+http://127.0.0.1:8000/api/company/              Send GET call to this API endpoint get all companies. 
+http://127.0.0.1:8000/api/company/pk/           Send GET, PUT, DELETE calls to this API endpoint to retrieve, update or delete a single company with a certain primary key. 
